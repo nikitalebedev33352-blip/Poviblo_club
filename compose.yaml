@@ -1,0 +1,37 @@
+
+services:
+    api:
+      image: api-part
+      build: 
+        context: .
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_NAME: povidlo_team
+        DB_USER: monkey 
+        DB_PASSWORD: 12345
+      ports:
+        - "8080:8080"
+      networks:
+        - devnet
+
+
+    db:
+      image: postgres
+      environment:
+        POSTGRES_PASSWORD: 12345
+        POSTGRES_USER: monkey
+        POSTGRES_DB: povidlo_team
+      volumes: 
+        - postgres-data:/var/lib/postgresql
+      ports:
+        - "5432:5432"
+      networks:
+        - devnet
+
+    
+volumes:
+  postgres-data:
+    external: true
+networks:
+  devnet:
